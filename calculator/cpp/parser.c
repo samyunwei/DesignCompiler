@@ -30,11 +30,19 @@ double parse_expression(void);
 
 static double parse_primary_expression() {
     Token token;
-    double value;
+    double value = 0;
+    int minus_flag = 0;
     my_get_token(&token);
 
+    if (token.kind == SUB_OPERATOR_TOKEN) {
+        minus_flag = 1;
+    } else {
+        unget_token(&token);
+    }
+
+    my_get_token(&token);
     if (token.kind == NUMBER_TOKEN) {
-        return token.value;
+        value = token.value;
     } else if (token.kind == LEFT_PAREN_TOKEN) {
         value = parse_expression();
         my_get_token(&token);
@@ -42,12 +50,14 @@ static double parse_primary_expression() {
             fprintf(stderr, "missing ')' error.\n");
             exit(1);
         }
-        return value;
     } else {
-        fprintf(stderr, "syntax error.\n");
         unget_token(&token);
-        return 0.0;
     }
+
+    if (minus_flag) {
+        value = -value;
+    }
+    return value;
 }
 
 static double parse_term() {
