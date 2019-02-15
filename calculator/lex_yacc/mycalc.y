@@ -50,6 +50,10 @@ term
         ;
 primary_expression
         : DOUBLE_LITERAL
+        | SUB primary_expression
+        {
+            $$ = -$2;
+        }
         | LP expression RP
         {
             $$ = $2;
