@@ -25,10 +25,19 @@ set (calc_src
 
 aux_source_directory(cpp cpp_src)
 
+#set(lexer_src  cpp/lexicalanalyzer.c
+#        cpp/token.h)
+#
+#set(parser_src cpp/token.h
+#        cpp/parser.c
+#        )
+
 add_executable(mycalc ${calc_src}
         )
 
-add_executable(mycalc_cpp
-        ${cpp_src})
+#add_executable(lexer
+#        ${lexer_src})
+
+add_executable(mycalc_cpp ${cpp_src})
 
 target_link_libraries(mycalc ${LEX_LIB})
