@@ -1,8 +1,9 @@
-set(proj_name "calculator")
+set(proj_name "crowbar")
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(lex_yacc)
 include_directories(cpp)
+include_directories(include)
 
 BISON_TARGET(${proj_name}_parser ${CMAKE_SOURCE_DIR}/${proj_name}/lex_yacc/mycalc.y
         ${CMAKE_CURRENT_BINARY_DIR}/y.tab.c
@@ -21,19 +22,14 @@ set(${proj_name}_src
 
 aux_source_directory(cpp cpp_src)
 
-#set(lexer_src  cpp/lexicalanalyzer.c
-#        cpp/token.h)
-#
-#set(parser_src cpp/token.h
-#        cpp/parser.c
-#        )
+aux_source_directory(include include_src)
 
 add_executable(my${proj_name} ${${proj_name}_src}
+        ${include_src}
         )
 
-#add_executable(lexer
-#        ${lexer_src})
-
-add_executable(my${proj_name}_cpp ${${proj_name}_src})
+add_executable(my${proj_name}_cpp ${${proj_name}_src}
+        ${include_src}
+        )
 
 target_link_libraries(my${proj_name} ${LEX_LIB})
