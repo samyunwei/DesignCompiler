@@ -30,6 +30,7 @@ add_executable(my${proj_name} ${${proj_name}_src}
 
 add_executable(my${proj_name}_cpp ${${proj_name}_src}
         ${include_src}
+        ${cpp_src}
         )
 
 target_link_libraries(my${proj_name} ${LEX_LIB})

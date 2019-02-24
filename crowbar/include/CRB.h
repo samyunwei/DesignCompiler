@@ -8,7 +8,8 @@
 #include <stdio.h>
 
 typedef struct CRB_Interpreter_tag CRB_Interpreter;
-CRB_Interpreter *CRB_create_interpreter;
+
+CRB_Interpreter *CRB_create_interpreter(void);
 
 void CRB_compile(CRB_Interpreter *interpreter, FILE *fp);
 
