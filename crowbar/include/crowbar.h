@@ -289,7 +289,7 @@ struct CRB_Interpreter_tag {
     int current_line_number;
 };
 
-void crb_function_define(char *identifier, ParameterList *parameter_list, Block *n block);
+void crb_function_define(char *identifier, ParameterList *parameter_list, Block *block);
 
 ParameterList *crb_create_parameter(char *identifier);
 
