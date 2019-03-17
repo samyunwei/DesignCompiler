@@ -405,7 +405,7 @@ void crb_add_local_variable(LocalEnvironment *env, char *identifier, CRB_Value *
 
 CRB_NativeFunctionProc *crb_search_native_function(CRB_Interpreter *inter, char *name);
 
-FunctionDefinition *crb_search_function(cahr *name);
+FunctionDefinition *crb_search_function(char *name);
 
 char *crb_get_operator_string(ExpressionType type);
 

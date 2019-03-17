@@ -2,6 +2,7 @@
 // Created by sam on 2019-03-03.
 //
 #include <crowbar.h>
+#include <CRB_dev.h>
 #include "MEM.h"
 #include "DEBUG.h"
 #include "crowbar.h"
@@ -100,4 +101,21 @@ Expression *crb_create_assign_expression(char *variable, Expression *operand) {
     exp->u.assign_expression.operand = operand;
 
     return exp;
+}
+
+static Expression convert_value_to_expression(CRB_Value *v) {
+    Expression expr;
+
+    if (v->type == CRB_INT_VALUE) {
+        expr.type = INT_EXPRESSION;
+        expr.u.int_value = v->u.int_value;
+    } else if (v->type == CRB_BOOLEAN_VALUE) {
+        expr.type = DOUBLE_EXPRESSION;
+        expr.u.double_value = v->u.double_value;
+    } else {
+        DBG_assert(v->type == CRB_BOOLEAN_VALUE, ("v->type..%d\n", v->type));
+        expr.type = BOOLEAN_EXPRESSION;
+        expr.u.boolean_value = v->u.boolean_value;
+    }
+    return expr;
 }

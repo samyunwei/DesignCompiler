@@ -38,14 +38,14 @@ extern DBG_Controller DBG_CURRENT_CONTROLLER;
     (DBG_set_debug_write_fp_func(DBG_CURRENT_CONTROLLER,(fp)))
 #define DBG_assert(expression, arg)\
     ((expression) ? (void)(0) :\
-    ((DBG_set(DBG_CURRENT_CONTROLLER,__FILE__,LINE__)),\
+    ((DBG_set(DBG_CURRENT_CONTROLLER,__FILE__,__LINE__)),\
     (DBG_set_expression(#expression)),\
     DBG_assert_fun arg))
 #define DBG_panic(arg)\
-    ((DBG_set(DBG_CURRENT_CONTROLLER,__FILE__,LINE__)),\
+    ((DBG_set(DBG_CURRENT_CONTROLLER,__FILE__,__LINE__)),\
     DBG_panic_func arg)
 #define DBG_debug_write(arg)\
-    ((DBG_set(DBG_CURRENT_CONTROLLER,__FILE__,LINE__)),\
+    ((DBG_set(DBG_CURRENT_CONTROLLER,__FILE__,__LINE__)),\
     DBG_debug_write_func arg)
 #endif
 
