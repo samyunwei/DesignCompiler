@@ -25,7 +25,7 @@ extern MEM_Controller mem_default_controller;
 #ifdef MEM_CONTROLLER
 #define MEM_CURRENT_CONTROLLER MEM_CONTROLLER
 #else
-#define MEM_CURRENT_CONTROLLER mem_default_controller;
+#define MEM_CURRENT_CONTROLLER mem_default_controller
 #endif
 
 MEM_Controller MEM_create_controller(void);

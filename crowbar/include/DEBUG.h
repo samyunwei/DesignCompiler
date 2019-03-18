@@ -40,7 +40,7 @@ extern DBG_Controller DBG_CURRENT_CONTROLLER;
     ((expression) ? (void)(0) :\
     ((DBG_set(DBG_CURRENT_CONTROLLER,__FILE__,__LINE__)),\
     (DBG_set_expression(#expression)),\
-    DBG_assert_fun arg))
+    DBG_assert_func arg))
 #define DBG_panic(arg)\
     ((DBG_set(DBG_CURRENT_CONTROLLER,__FILE__,__LINE__)),\
     DBG_panic_func arg)

@@ -131,7 +131,7 @@ struct Expression_tag {
         char *string_value;
         char *identifier;
         AssignExpression assign_expression;
-        Binary_Expression binary_expression;
+        BinaryExpression binary_expression;
         Expression *minus_expression;
         FunctionCallExpression function_call_expression;
     } u;
@@ -325,7 +325,7 @@ IdentifierList *crb_create_global_identifier(char *identifier);
 
 IdentifierList *crb_create_chain_identifier(IdentifierList *list, char *identifier);
 
-Statement *crb_create_if_statement(Elsif *list, Elsif *add);
+Statement *crb_create_if_statement(Expression *condition, Block *then_block, Elsif *elsif_list, Block *else_block);
 
 Elsif *crb_create_elsif_list(Elsif *list, Elsif *add);
 
@@ -333,7 +333,7 @@ Elsif *crb_create_elsif(Expression *expr, Block *block);
 
 Statement *crb_create_while_statement(Expression *condition, Block *block);
 
-Statement *crb_create_for_statement(Expression *init, Expression *cond, Expression *block);
+Statement *crb_create_for_statement(Expression *init, Expression *cond, Expression *post, Expression *block);
 
 Block *crb_create_block(StatementList *statement_list);
 
