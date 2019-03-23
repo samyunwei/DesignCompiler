@@ -115,3 +115,140 @@ static StatementResult execute_if_statement(CRB_Interpreter *inter, LocalEnviron
     return result;
 }
 
+static StatementResult exectute_while_statement(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
+    StatementResult result;
+    CRB_Value cond;
+    result.type = NORMAL_STATEMENT_RESULT;
+    for (;;) {
+        cond = crb_eval_expression(inter, env, statement->u.while_s.condition);
+        if (cond.type != CRB_BOOLEAN_VALUE) {
+            crb_runtime_error(statement->u.while_s.condition->line_number, NOT_BOOLEAN_TYPE_ERR, MESSAGE_ARGUMENT_END);
+        }
+        DBG_assert(cond.type == CRB_BOOLEAN_VALUE, ("cond.type..%d", cond.type));
+        if (!cond.u.boolean_value)
+            break;
+
+        result = crb_execute_statement_list(inter, env, statement->u.while_s.block->statement_list);
+        if (result.type == RETURN_STATEMENT_RESULT) {
+            break;
+        } else if (result.type == BREAK_STATEMENT_RESULT) {
+            result.type = NORMAL_STATEMENT_RESULT;
+            break;
+        }
+    }
+    return result;
+}
+
+static StatementResult execute_for_statement(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
+    StatementResult result;
+    CRB_Value cond;
+
+    result.type = NORMAL_STATEMENT_RESULT;
+
+    if (statement->u.for_s.init) {
+        crb_eval_expression(inter, env, statement->u.for_s.init);
+    }
+    for (;;) {
+        if (statement->u.for_s.condition) {
+            cond = crb_eval_expression(inter, env, statement->u.for_s.condition);
+            if (cond.type != CRB_BOOLEAN_VALUE) {
+                crb_runtime_error(statement->u.for_s.condition->line_number, NOT_BOOLEAN_TYPE_ERR,
+                                  MESSAGE_ARGUMENT_END);
+            }
+            DBG_assert(cond.type == CRB_BOOLEAN_VALUE, ("cond.type..%d", cond.type));
+            if (!cond.u.boolean_value)
+                break;
+        }
+
+        result = crb_execute_statement_list(inter, env, statement->u.for_s.block->statement_list);
+
+        if (result.type == RETURN_STATEMENT_RESULT) {
+            result.type = NORMAL_STATEMENT_RESULT;
+            break;
+        }
+
+        if (statement->u.for_s.post) {
+            crb_eval_expression(inter, env, statement->u.for_s.post);
+        }
+    }
+    return result;
+}
+
+
+static StatementResult execute_return_statement(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
+    StatementResult result;
+
+    result.type = RETURN_STATEMENT_RESULT;
+    if (statement->u.return_s.return_value) {
+        result.u.return_value = crb_eval_expression(inter, env, statement->u.return_s.return_value);
+    } else {
+        result.u.return_value.type = CRB_NULL_VALUE;
+    }
+
+    return result;
+}
+
+static StatementResult execute_break_statment(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
+    StatementResult result;
+
+    result.type = BREAK_STATEMENT_RESULT;
+
+    return result;
+}
+
+static StatementResult execute_continue_statement(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
+    StatementResult result;
+
+    result.type = CONTINUE_STATEMENT_RESULT;
+
+    return result;
+}
+
+static StatementResult execute_statement(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
+    StatementResult result;
+
+    result.type = NORMAL_STATEMENT_RESULT;
+
+    switch (statement->type) {
+        case EXPRESSION_STATEMENT:
+            result = execute_expression_statement(inter, env, statement);
+            break;
+        case GLOBAL_STATEMENT:
+            result = exectute_global_statement(inter, env, statement);
+            break;
+        case IF_STATEMENT:
+            result = execute_if_statement(inter, env, statement);
+            break;
+        case WHILE_STATEMENT:
+            result = exectute_while_statement(inter, env, statement);
+            break;
+        case FOR_STATEMENT:
+            result = execute_for_statement(inter, env, statement);
+        case RETURN_STATEMENT:
+            result = execute_return_statement(inter, env, statement);
+        case BREAK_STATEMENT:
+            result = execute_break_statment(inter, env, statement);
+        case CONTINUE_STATEMENT:
+            result = execute_break_statment(inter, env, statement);
+            break;
+        case STATEMENT_TYPE_COUNT_PLUS_1:
+        default:
+            DBG_panic(("bad case...%d", statement->type));
+    }
+    return result;
+}
+
+StatementResult crb_excute_statement_list(CRB_Interpreter *inter, LocalEnvironment *env, StatementList *list) {
+    StatementList *pos;
+    StatementResult result;
+
+    result.type = NORMAL_STATEMENT_RESULT;
+    for (pos = list; pos; pos = pos->next) {
+        result = execute_statement(inter, env, pos->statement);
+        if (result.type != NORMAL_STATEMENT_RESULT) {
+            goto FUNC_END;
+        }
+    }
+    FUNC_END:
+    return result;
+}
