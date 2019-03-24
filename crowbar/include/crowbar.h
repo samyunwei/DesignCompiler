@@ -17,8 +17,8 @@
 #define LINE_BUF_SIZE       (1024)
 
 #define dkc_is_math_operator(operator) \
-        ((operator) == ADD_EXPRESSION) || (operator) == SUB_EXPRESSION \
-        || (operator) == MUL_EXPRESSION) || (operator) == DIV_EXPRESSION) \
+        ((operator) == ADD_EXPRESSION || (operator) == SUB_EXPRESSION \
+        || (operator) == MUL_EXPRESSION || (operator) == DIV_EXPRESSION \
         || (operator) == MOD_EXPRESSION)
 
 #define dkc_is_compare_operator(operator)\
@@ -92,6 +92,7 @@ typedef enum {
     GT_EXPRESSION,
     GE_EXPRESSION,
     LT_EXPRESSION,
+    LE_EXPRESSION,
     LOGICAL_AND_EXPRESSION,
     LOGICAL_OR_EXPRESSION,
     MINUS_EXPRESSION,
