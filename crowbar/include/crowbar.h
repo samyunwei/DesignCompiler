@@ -385,7 +385,7 @@ void crb_release_string(CRB_String *str);
 
 CRB_String *crb_search_crb_string(CRB_Interpreter *inter, char *str);
 
-CRB_String *crn_create_crowbar_string(CRB_Interpreter *inter, char *str);
+CRB_String *crb_create_crowbar_string(CRB_Interpreter *inter, char *str);
 
 
 /*util.c*/

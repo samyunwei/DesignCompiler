@@ -34,7 +34,7 @@ void *MEM_malloc_func(MEM_Controller controller, char *filename, int line, size_
 
 void *MEM_realloc_func(MEM_Controller controller, char *filename, int line, void *ptr, size_t size);
 
-char *MEM_strdup_fund(MEM_Controller controller, char *filename, int line, char *str);
+char *MEM_strdup_func(MEM_Controller controller, char *filename, int line, char *str);
 
 MEM_Storage MEM_open_storage_func(MEM_Controller controller, char *filename, int line, int page_size);
 
