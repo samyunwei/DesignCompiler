@@ -66,7 +66,6 @@ MEM_Controller MEM_create_controller(void) {
     return p;
 }
 
-#define DEBUG
 
 #ifdef DEBUG
 
@@ -251,7 +250,7 @@ void MEM_free_func(MEM_Controller controller, void *ptr) {
     unchian_block(controller, (Header *) real_ptr);
     memset(real_ptr, 0xCC, size + sizeof(Header));
 #else
-    realptr = ptr;
+    real_ptr = ptr;
 #endif
     free(real_ptr);
 }
