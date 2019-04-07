@@ -418,7 +418,7 @@ void crb_runtime_error(int line_number, RuntimeError id, ...);
 /*native.c*/
 CRB_Value crb_nv_print_proc(CRB_Interpreter *interpreter, int arg_count, CRB_Value *args);
 
-CRB_Value crb_nv_open_proc(CRB_Interpreter *interpreter, int arg_count, CRB_Value *args);
+CRB_Value crb_nv_fopen_proc(CRB_Interpreter *interpreter, int arg_count, CRB_Value *args);
 
 CRB_Value crb_nv_fclose_proc(CRB_Interpreter *interpreter, int arg_count, CRB_Value *args);
 
