@@ -86,7 +86,7 @@ void crb_add_local_variable(LocalEnvironment *env, char *identifier, CRB_Value *
     env->variable = new_variable;
 }
 
-void CRB_add_global_variable(CRB_Interpreter *inter, char *identifier, CRB_Value *value) {
+void crb_add_global_variable(CRB_Interpreter *inter, char *identifier, CRB_Value *value) {
     Variable *new_variable;
 
     new_variable = crb_execute_malloc(inter, sizeof(Variable));

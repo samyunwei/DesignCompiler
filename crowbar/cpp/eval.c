@@ -128,7 +128,7 @@ eval_assign_expression(CRB_Interpreter *inter, LocalEnvironment *env, char *iden
         if (env != NULL) {
             crb_add_local_variable(env, identifier, &v);
         } else {
-            CRB_add_global_variable(inter, identifier, &v);
+            crb_add_global_variable(inter, identifier, &v);
         }
         refer_if_string(&v);
     }
