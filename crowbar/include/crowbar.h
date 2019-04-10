@@ -5,6 +5,7 @@
 #ifndef DESIGNCOMPLIER_CROWBAR_H
 #define DESIGNCOMPLIER_CROWBAR_H
 
+
 #include <stdio.h>
 #include "MEM.h"
 #include "CRB.h"
@@ -142,7 +143,7 @@ typedef struct Statement_tag Statement;
 
 typedef struct StatementList_tag {
     Statement *statement;
-    struct StatementList_tag *next
+    struct StatementList_tag *next;
 } StatementList;
 
 typedef struct {
@@ -230,7 +231,7 @@ typedef struct FunctionDefinition_tag {
     union {
         struct {
             ParameterList *parameter;
-            Block *block
+            Block *block;
         } crowbar_f;
 
         struct {
@@ -286,7 +287,7 @@ struct CRB_Interpreter_tag {
     MEM_Storage execute_storage;
     Variable *variable;
     FunctionDefinition *function_list;
-    StatementList *statementList;
+    StatementList *statement_list;
     int current_line_number;
 };
 

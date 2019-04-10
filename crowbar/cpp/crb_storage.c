@@ -61,7 +61,7 @@ void *MEM_storage_malloc_func(MEM_Controller controller, char *filename, int lin
         int alloc_cell_num;
         alloc_cell_num = larger(cell_num, storage->current_page_size);
         new_page = (MemoryPage *) MEM_malloc_func(controller, filename, line,
-                                                  sizeof(MemoryPage) + CELL_SIZE * (alloc_cell_num - 1))
+                                                  sizeof(MemoryPage) + CELL_SIZE * (alloc_cell_num - 1));
         new_page->next = storage->page_list;
         new_page->cell_num = alloc_cell_num;
         storage->page_list = new_page;

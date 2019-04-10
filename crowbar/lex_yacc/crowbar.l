@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
 #include <string.h>
-#include <DBG.h>
+#include <DEBUG.h>
 #include <crowbar.h>
 #include "y.tab.h"
 
@@ -25,7 +25,7 @@ static void increment_line_number(void)
 <INITIAL>"for"     return FOR;
 <INITIAL>"return"     return RETURN_T;
 <INITIAL>"break"     return BREAK;
-<INITIAL>"continue"     return continue;
+<INITIAL>"continue"     return CONTINUE;
 <INITIAL>"null"     return NULL_T;
 <INITIAL>"true"     return TRUE_T;
 <INITIAL>"false"     return FALSE_T;
@@ -50,17 +50,17 @@ static void increment_line_number(void)
 <INITIAL>"*"     return MUL;
 <INITIAL>"/"     return DIV;
 <INITIAL>"%"     return MOD;
-<INITIAL>[A-Za-z_][A-Za-z_0-9]*{
+<INITIAL>[A-Za-z_][A-Za-z_0-9]* {
     yylval.identifier = crb_create_identifier(yytext);
-    return IDENTIFIER
+    return IDENTIFIER;
 }
-<INITIAL>([1-9][0-0]*)|"0"{
+<INITIAL>([1-9][0-0]*)|"0" {
     Expression *expression = crb_alloc_expression(INT_EXPRESSION);
     sscanf(yytext,"%d",&expression->u.int_value);
     yylval.expression = expression;
     return INT_LITERAL;
 }
-<INITIAL>[0-9]+\.[0-9]+{
+<INITIAL>[0-9]+\.[0-9]+ {
     Expression *expression = crb_alloc_expression(DOUBLE_EXPRESSION);
     sscanf(yytext,"%lf",&expression->u.double_value);
     yylval.expression = expression;
@@ -69,12 +69,12 @@ static void increment_line_number(void)
 
 <INITIAL>\" {
     crb_open_string_literal();
-    BEGIN_STRING_LITERAL_STATE;
+    BEGIN STRING_LITERAL_STATE;
 }
 
 <INITIAL>[\t];
 
-<INITIAL>\n{
+<INITIAL>\n {
     increment_line_number();
 }
 <INITIAL># BEGIN COMMENT;
@@ -101,7 +101,7 @@ static void increment_line_number(void)
 <COMMENT>.
 
 <STRING_LITERAL_STATE>\"    {
-    EXPRESSION *expression = crb_alloc_expression(STRING_EXPRESSION);
+    Expression *expression = crb_alloc_expression(STRING_EXPRESSION);
     expression->u.string_value = crb_close_string_literal();
     yylval.expression = expression;
     BEGIN INITIAL;
@@ -114,10 +114,10 @@ static void increment_line_number(void)
 }
 
 
-<STRING_LITERAL_STATE>\\\"  crb_add_string_literal('""');
+<STRING_LITERAL_STATE>\\\"  crb_add_string_literal('"');
 <STRING_LITERAL_STATE>\\n   crb_add_string_literal('\n');
-<STRING_LITERAL_STATE>\\t   crb_add_string_literal('\t')
-<STRING_LITERAL_STATE>\\\\  crb_add_string_literal(\\);
+<STRING_LITERAL_STATE>\\t   crb_add_string_literal('\t');
+<STRING_LITERAL_STATE>\\\\  crb_add_string_literal('\\');
 <STRING_LITERAL_STATE>.     crb_add_string_literal(yytext[0]);
 
 %%

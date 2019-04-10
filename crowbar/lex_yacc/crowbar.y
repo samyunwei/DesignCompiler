@@ -20,8 +20,8 @@
 %token <expression> STRING_LITERAL;
 %token <expression> IDENTIFIER;
 
-%token  FUNCTION IF ELSE ELSIF WHILE FOR RETURN_T BREAK CONTINUE NULL_T
-        LR RP LC RC SEMICOLON COMMA ASSIGN LOGICAL_AND LOGICAL_OR
+%token FUNCTION IF ELSE ELSIF WHILE FOR RETURN_T BREAK CONTINUE NULL_T
+        LP RP LC RC SEMICOLON COMMA ASSIGN LOGICAL_AND LOGICAL_OR
         EQ NE GT GE LT LE ADD SUB MUL DIV MOD TRUE_T FALSE_T GLOBAL_T
 
 %type <parameter_list> parameter_list
@@ -34,7 +34,6 @@
 %type <statement> statement global_statement
       if_statement while_statement for_statement
       return_statement break_statement continue_statement
-
 %type <statement_list> statement_list
 %type <block> block
 %type <elsif> elsif elsif_list
@@ -60,23 +59,32 @@ function_definition
     {
         crb_function_define($2,$4,$6);
     }
-    | FUNCTION IDENTIFIER LP RB block
+    | FUNCTION IDENTIFIER LP RP block
     {
         crb_function_define($2,NULL,$5);
     }
     ;
-
 parameter_list
     : IDENTIFIER
     {
-        $$ = crb_create_parameter($1)
+        $$ = crb_create_parameter($1);
     }
     |  parameter_list COMMA IDENTIFIER
     {
-        $$ = crb_chain_parameter($1,$3);
+        $$ = crb_chain_parameter($1, $3);
     }
     ;
 argument_list
+    : expression
+    {
+        $$ = crb_create_argument_list($1);
+    }
+    | argument_list COMMA expression
+    {
+        $$ = crb_chain_argument_list($1,$3);
+    }
+    ;
+statement_list
     : statement
     {
         $$ = crb_create_statement_list($1);
@@ -100,11 +108,18 @@ logical_or_expression
         $$ = crb_create_binary_expression(LOGICAL_OR_EXPRESSION,$1,$3);
     }
     ;
+logical_and_expression
+    : equality_expression
+    | logical_and_expression LOGICAL_AND equality_expression
+    {
+        $$ = crb_create_binary_expression(LOGICAL_AND_EXPRESSION,$1,$3);
+    }
+    ;
 equality_expression
     : relational_expression
-    | equality_expression EQ relation_expression
+    | equality_expression EQ relational_expression
     {
-        $$ = ceb_create_binary_expression(EQ_EXPRESSION_$1,$3);
+        $$ = crb_create_binary_expression(EQ_EXPRESSION,$1,$3);
     }
     | equality_expression NE relational_expression
     {
@@ -117,7 +132,7 @@ relational_expression
     {
         $$ = crb_create_binary_expression(GT_EXPRESSION,$1,$3);
     }
-    | relation_expression GE additive_expression
+    | relational_expression GE additive_expression
     {
         $$ = crb_create_binary_expression(GE_EXPRESSION,$1,$3);
     }
@@ -174,6 +189,8 @@ primary_expression
     }
     | LP expression RP
     {
+        $$ = $2;
+    }
     | IDENTIFIER
     {
         $$ = crb_create_identifier_expression($1);
@@ -188,6 +205,7 @@ primary_expression
     | FALSE_T
     {
         $$ = crb_create_boolean_expression(CRB_FALSE);
+    }
     | NULL_T
     {
         $$ = crb_create_null_expression();
@@ -240,7 +258,7 @@ primary_expression
         $$ = crb_create_if_statement($3,$5,$6,$8);
     }
     ;
-    elseif_list
+elsif_list
     : elsif
     | elsif_list elsif
     {
@@ -261,7 +279,7 @@ primary_expression
     ;
     for_statement
     : FOR LP expression_opt SEMICOLON expression_opt SEMICOLON
-     expression_opt RB block
+     expression_opt RP block
     {
         $$ = crb_create_for_statement($3,$5,$7,$9);
     }

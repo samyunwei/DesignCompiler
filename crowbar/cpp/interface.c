@@ -28,7 +28,7 @@ CRB_Interpreter *CRB_create_interpreter(void) {
     interpreter->execute_storage = NULL;
     interpreter->variable = NULL;
     interpreter->function_list = NULL;
-    interpreter->statementList = NULL;
+    interpreter->statement_list = NULL;
     interpreter->current_line_number = 1;
 
     crb_set_current_interpreter(interpreter);
@@ -54,7 +54,7 @@ void CRB_compile(CRB_Interpreter *interpreter, FILE *fp) {
 void CRB_interpret(CRB_Interpreter *interpreter) {
     interpreter->execute_storage = MEM_open_storage(0);
     crb_add_std_fp(interpreter);
-    crb_execute_statement_list(interpreter, NULL, interpreter->statementList);
+    crb_execute_statement_list(interpreter, NULL, interpreter->statement_list);
 
 }
 

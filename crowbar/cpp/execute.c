@@ -29,7 +29,7 @@ execute_expression_statement(CRB_Interpreter *inter, LocalEnvironment *env, Stat
 }
 
 
-static StatementResult exectute_global_statement(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
+static StatementResult execute_global_statement(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
     IdentifierList *pos;
     StatementResult result;
 
@@ -115,7 +115,7 @@ static StatementResult execute_if_statement(CRB_Interpreter *inter, LocalEnviron
     return result;
 }
 
-static StatementResult exectute_while_statement(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
+static StatementResult execute_while_statement(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
     StatementResult result;
     CRB_Value cond;
     result.type = NORMAL_STATEMENT_RESULT;
@@ -188,7 +188,7 @@ static StatementResult execute_return_statement(CRB_Interpreter *inter, LocalEnv
     return result;
 }
 
-static StatementResult execute_break_statment(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
+static StatementResult execute_break_statement(CRB_Interpreter *inter, LocalEnvironment *env, Statement *statement) {
     StatementResult result;
 
     result.type = BREAK_STATEMENT_RESULT;
@@ -214,22 +214,22 @@ static StatementResult execute_statement(CRB_Interpreter *inter, LocalEnvironmen
             result = execute_expression_statement(inter, env, statement);
             break;
         case GLOBAL_STATEMENT:
-            result = exectute_global_statement(inter, env, statement);
+            result = execute_global_statement(inter, env, statement);
             break;
         case IF_STATEMENT:
             result = execute_if_statement(inter, env, statement);
             break;
         case WHILE_STATEMENT:
-            result = exectute_while_statement(inter, env, statement);
+            result = execute_while_statement(inter, env, statement);
             break;
         case FOR_STATEMENT:
             result = execute_for_statement(inter, env, statement);
         case RETURN_STATEMENT:
             result = execute_return_statement(inter, env, statement);
         case BREAK_STATEMENT:
-            result = execute_break_statment(inter, env, statement);
+            result = execute_break_statement(inter, env, statement);
         case CONTINUE_STATEMENT:
-            result = execute_break_statment(inter, env, statement);
+            result = execute_break_statement(inter, env, statement);
             break;
         case STATEMENT_TYPE_COUNT_PLUS_1:
         default:
@@ -238,7 +238,7 @@ static StatementResult execute_statement(CRB_Interpreter *inter, LocalEnvironmen
     return result;
 }
 
-StatementResult crb_excute_statement_list(CRB_Interpreter *inter, LocalEnvironment *env, StatementList *list) {
+StatementResult crb_execute_statement_list(CRB_Interpreter *inter, LocalEnvironment *env, StatementList *list) {
     StatementList *pos;
     StatementResult result;
 

@@ -47,7 +47,7 @@ void crb_release_string(CRB_String *str) {
     }
 }
 
-CRB_String *crb_create_corwbar_string(CRB_Interpreter *inter, char *str) {
+CRB_String *crb_create_crowbar_string(CRB_Interpreter *inter, char *str) {
     CRB_String *ret = all_crb_string(inter, str, CRB_FALSE);
     ret->ref_count = 1;
 
