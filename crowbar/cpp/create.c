@@ -162,6 +162,14 @@ Expression *crb_create_identifier_expression(char *identifier) {
     return exp;
 }
 
+IdentifierList *crb_chain_identifier(IdentifierList *list, char *identifier) {
+    IdentifierList *pos;
+    for (pos = list; pos->next; pos = pos->next);
+
+    pos->next = crb_create_global_identifier(identifier);
+
+    return list;
+}
 
 Expression *crb_create_function_call_expression(char *func_name, ArgumentList *argument) {
     Expression *exp;
@@ -245,7 +253,18 @@ Statement *crb_create_if_statement(Expression *condition, Block *then_block, Els
 Elsif *crb_create_elsif_list(Elsif *list, Elsif *add) {
     Elsif *pos;
     for (pos = list; pos->next; pos = pos->next);
+
     pos->next = add;
+
+    return list;
+}
+
+Elsif *crb_chain_elsif_list(Elsif *list, Elsif *add) {
+    Elsif *pos;
+    for (pos = list; pos->next; pos = pos->next);
+
+    pos->next = add;
+
     return list;
 }
 

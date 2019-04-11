@@ -44,7 +44,7 @@ union Header_tag {
     Align u[HEADER_ALIGN_SIZE];
 };
 
-static void default_error_hander(MEM_Controller controller, char *filename, int line, char *msg) {
+static void default_error_handler(MEM_Controller controller, char *filename, int line, char *msg) {
     fprintf(controller->error_fp, "MEM:%s failed in %s at %d\n", msg, filename);
 }
 

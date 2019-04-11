@@ -327,11 +327,15 @@ IdentifierList *crb_create_global_identifier(char *identifier);
 
 IdentifierList *crb_create_chain_identifier(IdentifierList *list, char *identifier);
 
+IdentifierList *crb_chain_identifier(IdentifierList *list, char *identifier);
+
 Statement *crb_create_if_statement(Expression *condition, Block *then_block, Elsif *elsif_list, Block *else_block);
 
 Elsif *crb_create_elsif_list(Elsif *list, Elsif *add);
 
 Elsif *crb_create_elsif(Expression *expr, Block *block);
+
+Elsif *crb_chain_elsif_list(Elsif *list, Elsif *add);
 
 Statement *crb_create_while_statement(Expression *condition, Block *block);
 

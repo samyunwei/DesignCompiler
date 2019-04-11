@@ -98,7 +98,7 @@ void crb_add_global_variable(CRB_Interpreter *inter, char *identifier, CRB_Value
 }
 
 char *crb_get_operator_string(ExpressionType type) {
-    char *str;
+    char *str = NULL;
 
     switch (type) {
         case BOOLEAN_EXPRESSION:
