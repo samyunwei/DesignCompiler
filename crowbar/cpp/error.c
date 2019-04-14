@@ -168,9 +168,9 @@ void self_check() {
         DBG_panic(("runtime error message format error.\n"));
     }
 
-    if (strcmp(crb_runtime_error_message_format[COMPILE_ERROR_COUNT_PLUS_1].format, "dummy") != 0) {
+    if (strcmp(crb_runtime_error_message_format[RUNTIME_ERROR_COUNT_PLUS_1].format, "dummy") != 0) {
         DBG_panic(("runtime error message format error.\n"
-                   "COMPILE_ERROR_COUNT_PLUS_!..%d\n", COMPILE_ERROR_COUNT_PLUS_1));
+                   "COMPILE_ERROR_COUNT_PLUS_!..%d\n", RUNTIME_ERROR_COUNT_PLUS_1));
     }
 }
 

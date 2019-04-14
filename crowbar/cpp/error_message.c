@@ -7,7 +7,7 @@
 MessageFormat crb_compile_error_message_format[] = {
         {"dummy"},
         {"在($(token))附近发生语法错误"},
-        {"不正确的字符($(bad_char)"},
+        {"不正确的字符($(bad_char))"},
         {"函数名重复($(name))"},
         {"dummy"},
 };

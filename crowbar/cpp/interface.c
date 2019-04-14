@@ -25,6 +25,7 @@ CRB_Interpreter *CRB_create_interpreter(void) {
 
     storage = MEM_open_storage(0);
     interpreter = MEM_storage_malloc(storage, sizeof(struct CRB_Interpreter_tag));
+    interpreter->interpreter_storage = storage;
     interpreter->execute_storage = NULL;
     interpreter->variable = NULL;
     interpreter->function_list = NULL;

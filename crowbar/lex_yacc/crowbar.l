@@ -54,7 +54,7 @@ static void increment_line_number(void)
     yylval.identifier = crb_create_identifier(yytext);
     return IDENTIFIER;
 }
-<INITIAL>([1-9][0-0]*)|"0" {
+<INITIAL>([1-9][0-9]*)|"0" {
     Expression *expression = crb_alloc_expression(INT_EXPRESSION);
     sscanf(yytext,"%d",&expression->u.int_value);
     yylval.expression = expression;
@@ -72,7 +72,7 @@ static void increment_line_number(void)
     BEGIN STRING_LITERAL_STATE;
 }
 
-<INITIAL>[\t];
+<INITIAL>[ \t] ;
 
 <INITIAL>\n {
     increment_line_number();
@@ -90,7 +90,7 @@ static void increment_line_number(void)
 
         }
 
-    crb_compile_error(CHARACTER_INVALID_ERR,STRING_MESSAGE_ARGUMENT,"bad char",buf,MESSAGE_ARGUMENT_END);
+    crb_compile_error(CHARACTER_INVALID_ERR,STRING_MESSAGE_ARGUMENT,"bad_char",buf,MESSAGE_ARGUMENT_END);
 }
 
 <COMMENT>\n {
@@ -98,7 +98,7 @@ static void increment_line_number(void)
     BEGIN INITIAL;
 }
 
-<COMMENT>.
+<COMMENT>. ;
 
 <STRING_LITERAL_STATE>\"    {
     Expression *expression = crb_alloc_expression(STRING_EXPRESSION);

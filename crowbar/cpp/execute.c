@@ -20,7 +20,7 @@ execute_expression_statement(CRB_Interpreter *inter, LocalEnvironment *env, Stat
 
     result.type = NORMAL_STATEMENT_RESULT;
 
-    v = crb_eval_minus_expression(inter, env, statement->u.expression_s);
+    v = crb_eval_expression(inter, env, statement->u.expression_s);
     if (v.type == CRB_STRING_VALUE) {
         crb_release_string(v.u.string_value);
     }

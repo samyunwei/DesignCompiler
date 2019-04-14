@@ -376,7 +376,7 @@ crb_eval_binary_expression(CRB_Interpreter *inter, LocalEnvironment *env, Expres
 
     } else if (left_val.type == CRB_STRING_VALUE && operator == ADD_EXPRESSION) {
         char buf[LINE_BUF_SIZE];
-        CRB_String *right_str;
+        CRB_String *right_str = NULL;
         if (right_val.type == CRB_INT_VALUE) {
             sprintf(buf, "%d", right_val.u.int_value);
             right_str = crb_create_crowbar_string(inter, MEM_strdup(buf));
@@ -389,6 +389,8 @@ crb_eval_binary_expression(CRB_Interpreter *inter, LocalEnvironment *env, Expres
             } else {
                 right_str = crb_create_crowbar_string(inter, MEM_strdup("false"));
             }
+        } else if (right_val.type == CRB_STRING_VALUE) {
+            right_str = right_val.u.string_value;
         } else if (right_val.type == CRB_NATIVE_POINTER_VALUE) {
             sprintf(buf, "(%s:%p)", right_val.u.native_pointer.info->name, right_val.u.native_pointer.pointer);
             right_str = crb_create_crowbar_string(inter, MEM_strdup(buf));
@@ -611,6 +613,7 @@ static CRB_Value eval_expression(CRB_Interpreter *inter, LocalEnvironment *env, 
         case LE_EXPRESSION:
             v = crb_eval_binary_expression(inter, env, expr->type, expr->u.binary_expression.left,
                                            expr->u.binary_expression.right);
+            break;
         case LOGICAL_AND_EXPRESSION:
         case LOGICAL_OR_EXPRESSION:
             v = eval_logical_and_or_expression(inter, env, expr->type, expr->u.binary_expression.left,
