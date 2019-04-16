@@ -221,7 +221,7 @@ static void eval_binary_int(CRB_Interpreter *inter, ExpressionType operator,
 static void eval_binary_double(CRB_Interpreter *inter, ExpressionType operator,
                                double left, double right, CRB_Value *result, int line_number) {
     if (dkc_is_math_operator(operator)) {
-        result->type = CRB_INT_VALUE;
+        result->type = CRB_DOUBLE_VALUE;
     } else if (dkc_is_compare_operator(operator)) {
         result->type = CRB_BOOLEAN_VALUE;
     } else {
@@ -366,7 +366,7 @@ crb_eval_binary_expression(CRB_Interpreter *inter, LocalEnvironment *env, Expres
         eval_binary_double(inter, operator, left_val.u.double_value, right_val.u.double_value, &result,
                            left->line_number);
     } else if (left_val.type == CRB_DOUBLE_VALUE && right_val.type == CRB_INT_VALUE) {
-        left_val.u.double_value = left_val.u.int_value;
+        right_val.u.double_value = right_val.u.int_value;
         eval_binary_double(inter, operator, left_val.u.double_value, right_val.u.double_value, &result,
                            left->line_number);
     } else if (left_val.type == CRB_BOOLEAN_VALUE && right_val.type == CRB_BOOLEAN_VALUE) {
@@ -590,6 +590,7 @@ static CRB_Value eval_expression(CRB_Interpreter *inter, LocalEnvironment *env, 
             break;
         case DOUBLE_EXPRESSION:
             v = eval_double_expression(expr->u.double_value);
+            break;
         case STRING_EXPRESSION:
             v = eval_string_expression(inter, expr->u.string_value);
             break;

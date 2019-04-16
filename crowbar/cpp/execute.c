@@ -224,10 +224,13 @@ static StatementResult execute_statement(CRB_Interpreter *inter, LocalEnvironmen
             break;
         case FOR_STATEMENT:
             result = execute_for_statement(inter, env, statement);
+            break;
         case RETURN_STATEMENT:
             result = execute_return_statement(inter, env, statement);
+            break;
         case BREAK_STATEMENT:
             result = execute_break_statement(inter, env, statement);
+            break;
         case CONTINUE_STATEMENT:
             result = execute_break_statement(inter, env, statement);
             break;

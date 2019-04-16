@@ -68,7 +68,7 @@ Variable *crb_search_local_variable(LocalEnvironment *env, char *identifier) {
 
 Variable *crb_search_global_variable(CRB_Interpreter *inter, char *identifier) {
     Variable *pos;
-    for (pos = inter->variable; pos; pos = pos->name) {
+    for (pos = inter->variable; pos; pos = pos->next) {
         if (!strcmp(pos->name, identifier)) {
             return pos;
         }

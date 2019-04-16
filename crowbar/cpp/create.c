@@ -19,7 +19,7 @@ void crb_function_define(char *identifier, ParameterList *parameter_list, Block 
     inter = crb_get_current_interpreter();
     f = crb_malloc(sizeof(FunctionDefinition));
     f->name = identifier;
-    f->type = identifier;
+    f->type = CROWBAR_FUNCTION_DEFINITION;
     f->u.crowbar_f.parameter = parameter_list;
     f->u.crowbar_f.block = block;
     f->next = inter->function_list;
@@ -74,11 +74,11 @@ StatementList *crb_chain_statement_list(StatementList *list, Statement *statemen
     StatementList *pos;
 
     if (list == NULL) {
-        return crb_create_argument_list(statement);
+        return crb_create_statement_list(statement);
     }
     for (pos = list; pos->next; pos = pos->next);
 
-    pos->next = crb_create_argument_list(statement);
+    pos->next = crb_create_statement_list(statement);
     return list;
 }
 
@@ -110,6 +110,9 @@ static Expression convert_value_to_expression(CRB_Value *v) {
         expr.type = INT_EXPRESSION;
         expr.u.int_value = v->u.int_value;
     } else if (v->type == CRB_BOOLEAN_VALUE) {
+        expr.type = BOOLEAN_EXPRESSION;
+        expr.u.double_value = v->u.double_value;
+    } else if (v->type == CRB_DOUBLE_VALUE) {
         expr.type = DOUBLE_EXPRESSION;
         expr.u.double_value = v->u.double_value;
     } else {
