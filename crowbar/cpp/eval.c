@@ -112,7 +112,7 @@ eval_assign_expression(CRB_Interpreter *inter, LocalEnvironment *env, char *iden
     CRB_Value v;
     Variable *left;
 
-    v = eval_expression(identifier, env, expression);
+    v = eval_expression(inter, env, expression);
 
     left = crb_search_local_variable(env, identifier);
 
