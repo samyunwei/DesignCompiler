@@ -14,6 +14,7 @@ void crb_function_define(char *identifier, ParameterList *parameter_list, Block 
     if (crb_search_function(identifier)) {
         crb_compile_error(FUNCTION_MULTIPLE_DEFINE_ERR,
                           STRING_MESSAGE_ARGUMENT, "name", identifier, MESSAGE_ARGUMENT_END);
+        return;
     }
 
     inter = crb_get_current_interpreter();
@@ -39,6 +40,7 @@ ParameterList *crb_create_parameter(char *identifier) {
 ParameterList *crb_chain_parameter(ParameterList *list, char *identifier) {
     ParameterList *pos;
     for (pos = list; pos->next; pos = pos->next);
+
     pos->next = crb_create_parameter(identifier);
     return list;
 }

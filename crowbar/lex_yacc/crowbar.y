@@ -181,7 +181,7 @@ unary_expression
 primary_expression
     : IDENTIFIER LP argument_list RP
     {
-        $$ = crb_create_function_call_expression($1,$3);
+        $$ = crb_create_function_call_expression($1, $3);
     }
     | IDENTIFIER LP RP
     {
@@ -211,7 +211,7 @@ primary_expression
         $$ = crb_create_null_expression();
     }
     ;
-    statement
+statement
     : expression SEMICOLON
     {
         $$ = crb_create_expression_statement($1);
@@ -224,13 +224,13 @@ primary_expression
     | break_statement
     | continue_statement
     ;
-    global_statement
+global_statement
     : GLOBAL_T identifier_list SEMICOLON
     {
         $$ = crb_create_global_statement($2);
     }
     ;
-    identifier_list
+identifier_list
     : IDENTIFIER
     {
         $$ = crb_create_global_identifier($1);
@@ -240,7 +240,7 @@ primary_expression
         $$ = crb_chain_identifier($1,$3);
     }
     ;
-    if_statement
+if_statement
     : IF LP expression RP block
     {
         $$ = crb_create_if_statement($3,$5,NULL,NULL);
@@ -271,45 +271,45 @@ elsif
         $$ = crb_create_elsif($3,$5);
     }
     ;
-    while_statement
+while_statement
     : WHILE LP expression RP block
     {
         $$ = crb_create_while_statement($3,$5);
     }
     ;
-    for_statement
+for_statement
     : FOR LP expression_opt SEMICOLON expression_opt SEMICOLON
      expression_opt RP block
     {
         $$ = crb_create_for_statement($3,$5,$7,$9);
     }
     ;
-    expression_opt
+expression_opt
     :
     {
         $$ = NULL;
     }
     | expression
     ;
-    return_statement
+return_statement
     : RETURN_T expression_opt SEMICOLON
     {
         $$ = crb_create_return_statement($2);
     }
     ;
-    break_statement
+break_statement
     : BREAK SEMICOLON
     {
         $$ = crb_create_break_statement();
     }
     ;
-    continue_statement
+continue_statement
     : CONTINUE SEMICOLON
     {
         $$ = crb_create_continue_statement();
     }
     ;
-    block
+block
     : LC statement_list RC
     {
         $$ = crb_create_block($2);

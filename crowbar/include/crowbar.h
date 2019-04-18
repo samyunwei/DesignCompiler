@@ -299,7 +299,7 @@ ParameterList *crb_chain_parameter(ParameterList *list, char *identifier);
 
 ArgumentList *crb_create_argument_list(Expression *expression);
 
-ArgumentList *crb_chin_argument_list(ArgumentList *list, Expression *expr);
+ArgumentList *crb_chain_argument_list(ArgumentList *list, Expression *expr);
 
 StatementList *crb_create_statement_list(StatementList *statement);
 
