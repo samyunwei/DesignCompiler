@@ -284,7 +284,7 @@ static void eval_binary_double(CRB_Interpreter *inter, ExpressionType operator,
 }
 
 static CRB_Boolean eval_compare_string(ExpressionType operator, CRB_Value *left, CRB_Value *right, int line_number) {
-    CRB_Boolean result = CRB_FALSE;
+    CRB_Boolean result;
     int cmp;
 
     cmp = strcmp(left->u.string_value->string, right->u.string_value->string);
@@ -307,7 +307,7 @@ static CRB_Boolean eval_compare_string(ExpressionType operator, CRB_Value *left,
                           STRING_MESSAGE_ARGUMENT, "operator", op_str, MESSAGE_ARGUMENT_END);
     }
     crb_release_string(left->u.string_value);
-    crb_release_string(left->u.string_value);
+    crb_release_string(right->u.string_value);
 
     return result;
 }
@@ -394,12 +394,14 @@ crb_eval_binary_expression(CRB_Interpreter *inter, LocalEnvironment *env, Expres
         } else if (right_val.type == CRB_NATIVE_POINTER_VALUE) {
             sprintf(buf, "(%s:%p)", right_val.u.native_pointer.info->name, right_val.u.native_pointer.pointer);
             right_str = crb_create_crowbar_string(inter, MEM_strdup(buf));
+        } else if (right_val.type == CRB_NULL_VALUE) {
+            right_str = crb_create_crowbar_string(inter, MEM_strdup("null"));
         }
         result.type = CRB_STRING_VALUE;
         result.u.string_value = chain_string(inter, left_val.u.string_value, right_str);
 
     } else if (left_val.type == CRB_STRING_VALUE && right_val.type == CRB_STRING_VALUE) {
-        result.type = CRB_STRING_VALUE;
+        result.type = CRB_BOOLEAN_VALUE;
         result.u.boolean_value = eval_compare_string(operator, &left_val, &right_val, left->line_number);
 
     } else if (left_val.type == CRB_NULL_VALUE || right_val.type == CRB_NULL_VALUE) {

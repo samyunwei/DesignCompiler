@@ -163,6 +163,8 @@ static StatementResult execute_for_statement(CRB_Interpreter *inter, LocalEnviro
         result = crb_execute_statement_list(inter, env, statement->u.for_s.block->statement_list);
 
         if (result.type == RETURN_STATEMENT_RESULT) {
+            break;
+        } else if (result.type == BREAK_STATEMENT_RESULT) {
             result.type = NORMAL_STATEMENT_RESULT;
             break;
         }
@@ -232,7 +234,7 @@ static StatementResult execute_statement(CRB_Interpreter *inter, LocalEnvironmen
             result = execute_break_statement(inter, env, statement);
             break;
         case CONTINUE_STATEMENT:
-            result = execute_break_statement(inter, env, statement);
+            result = execute_continue_statement(inter, env, statement);
             break;
         case STATEMENT_TYPE_COUNT_PLUS_1:
         default:

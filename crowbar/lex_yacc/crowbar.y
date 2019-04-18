@@ -265,7 +265,7 @@ elsif_list
         $$ = crb_chain_elsif_list($1,$2);
     }
     ;
-    elsif
+elsif
     : ELSIF LP expression RP block
     {
         $$ = crb_create_elsif($3,$5);
