@@ -40,7 +40,7 @@ static StatementResult execute_global_statement(CRB_Interpreter *inter, LocalEnv
                           MESSAGE_ARGUMENT_END);
     }
 
-    for (pos = statement->u.global_s.identifier_list; pos; pos->next) {
+    for (pos = statement->u.global_s.identifier_list; pos; pos = pos->next) {
         GlobalVariableRef *ref_pos;
         GlobalVariableRef *new_ref;
         Variable *variable;
