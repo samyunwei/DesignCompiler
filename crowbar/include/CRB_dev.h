@@ -14,6 +14,10 @@ typedef enum {
 
 typedef struct CRB_String_tag CRB_String;
 
+typedef struct CRB_Object_tag CRB_Object;
+
+typedef struct CRB_Array_tag CRB_Array;
+
 typedef struct {
     char *name;
 } CRB_NativePointerInfo;
@@ -40,6 +44,7 @@ typedef struct {
         double double_value;
         CRB_String *string_value;
         CRB_NativePointer native_pointer;
+        CRB_Object *object;
     } u;
 
 } CRB_Value;

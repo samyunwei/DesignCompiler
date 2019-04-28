@@ -278,6 +278,30 @@ struct CRB_String_tag {
     CRB_Boolean is_literal;
 };
 
+struct CRB_Array_tag {
+    int size;
+    int alloc_size;
+    CRB_Value *array;
+};
+
+
+typedef enum {
+    ARRAY_OBJECT = 1,
+    STRING_OBJECT,
+    OBJECT_TYPE_COUNT_PLUS
+} object_type;
+
+struct CRB_Object_tag {
+    object_type type;
+    unsigned int marked:1;
+    union {
+        CRB_Array array;
+        CRB_String string;
+    } u;
+    struct CRB_Obejct_tag *prev;
+    struct CRB_Object_tag *next;
+};
+
 typedef struct {
     CRB_String *strings;
 } StringPool;
