@@ -182,6 +182,10 @@ static void eval_binary_int(CRB_Interpreter *inter, ExpressionType operator,
             result->u.int_value = left * right;
             break;
         case DIV_EXPRESSION:
+            if (right == 0) {
+                crb_runtime_error(line_number, DIVISION_BY_ZERO_ERR, INT_MESSAGE_ARGUMENT);
+            }
+
             result->u.int_value = left / right;
             break;
         case MOD_EXPRESSION:
@@ -247,6 +251,9 @@ static void eval_binary_double(CRB_Interpreter *inter, ExpressionType operator,
             result->u.double_value = left * right;
             break;
         case DIV_EXPRESSION:
+            if (right == 0) {
+                crb_runtime_error(line_number, DIVISION_BY_ZERO_ERR, INT_MESSAGE_ARGUMENT);
+            }
             result->u.double_value = left / right;
             break;
         case MOD_EXPRESSION:
@@ -322,7 +329,7 @@ eval_binary_null(CRB_Interpreter *inter, ExpressionType *operator, CRB_Value *le
         result = !(left->type == CRB_NULL_VALUE && right->type == CRB_NULL_VALUE);
     } else {
         char *op_str = crb_get_operator_string(operator);
-        crb_runtime_error(line_number, NOT_NULL_OPERATOR_ERR, STRING_MESSAGE_ARGUMENT, "operator",
+        crb_runtime_error(line_number, NOT_NULL_OPERATOR_ERR, STRING_MESSAGE_ARGUMENT, "operator", op_str,
                           MESSAGE_ARGUMENT_END);
     }
     release_if_string(left);

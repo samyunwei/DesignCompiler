@@ -54,6 +54,5 @@ typedef CRB_Value CRB_NativeFunctionProc(CRB_Interpreter *interpreter,
 
 void CRB_add_native_function(CRB_Interpreter *interpreter, char *name, CRB_NativeFunctionProc *proc);
 
-void crb_add_global_variable(CRB_Interpreter *inter, char *identifier, CRB_Value *value);
 
 #endif //DESIGNCOMPLIER_CRB_DEV_H
