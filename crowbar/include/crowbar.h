@@ -332,6 +332,7 @@ typedef struct {
 struct CRB_String_tag {
     int ref_count;
     char *string;
+    CRB_Boolean is_literal;
 };
 
 struct CRB_Array_tag {
@@ -369,6 +370,9 @@ struct CRB_Interpreter_tag {
     FunctionDefinition *function_list;
     StatementList *statement_list;
     int current_line_number;
+    Stack stack;
+    Heap heap;
+    LocalEnvironment *top;
 };
 
 void crb_function_define(char *identifier, ParameterList *parameter_list, Block *block);
