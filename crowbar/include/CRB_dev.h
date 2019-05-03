@@ -18,6 +18,8 @@ typedef struct CRB_Object_tag CRB_Object;
 
 typedef struct CRB_Array_tag CRB_Array;
 
+typedef struct LocalEnvironment_tag LocalEnvironment;
+
 typedef struct {
     char *name;
 } CRB_NativePointerInfo;
@@ -55,5 +57,14 @@ typedef CRB_Value CRB_NativeFunctionProc(CRB_Interpreter *interpreter,
 
 void CRB_add_native_function(CRB_Interpreter *interpreter, char *name, CRB_NativeFunctionProc *proc);
 
+void CRB_add_native_functuin(CRB_Interpreter *interpreter, char *name, CRB_NativeFunctionProc *proc);
+
+void CRB_add_global_variable(CRB_Interpreter *inter, LocalEnvironment *env, char *str);
+
+CRB_Object *CRB_create_crowbar_string(CRB_Interpreter *inter, LocalEnvironment *env, char *str);
+
+CRB_Object *CRB_create_array(CRB_Interpreter *inter, LocalEnvironment *env, int size);
+
+char *CRB_value_to_string(CRB_Value *value);
 
 #endif //DESIGNCOMPLIER_CRB_DEV_H

@@ -361,7 +361,7 @@ struct CRB_Object_tag {
 };
 
 typedef struct {
-    char *strings;
+    char *string;
 } VString;
 
 struct CRB_Interpreter_tag {
