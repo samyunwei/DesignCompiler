@@ -314,6 +314,7 @@ typedef struct {
     Variable *variable;
     GlobalVariableRef *global_variable;
     RefInNativeFunc *ref_in_native_method;
+    struct LocalEnvironment *next;
 } LocalEnvironment;
 
 typedef struct {
@@ -355,7 +356,7 @@ struct CRB_Object_tag {
         CRB_Array array;
         CRB_String string;
     } u;
-    struct CRB_Obejct_tag *prev;
+    struct CRB_Object_tag *prev;
     struct CRB_Object_tag *next;
 };
 

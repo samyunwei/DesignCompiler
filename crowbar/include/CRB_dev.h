@@ -28,7 +28,8 @@ typedef enum {
     CRB_DOUBLE_VALUE,
     CRB_STRING_VALUE,
     CRB_NATIVE_POINTER_VALUE,
-    CRB_NULL_VALUE
+    CRB_NULL_VALUE,
+    CRB_ARRAY_VALUE
 } CRB_ValueType;
 
 typedef struct {
