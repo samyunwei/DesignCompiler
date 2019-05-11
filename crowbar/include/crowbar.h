@@ -309,13 +309,12 @@ typedef struct RefInNativeFunc_tag {
     struct RefInNativeFunc_tag *next;
 } RefInNativeFunc;
 
-
-typedef struct {
+struct LocalEnvironment_tag {
     Variable *variable;
     GlobalVariableRef *global_variable;
     RefInNativeFunc *ref_in_native_method;
     struct LocalEnvironment *next;
-} LocalEnvironment;
+};
 
 typedef struct {
     int stack_alloc_size;

@@ -10,6 +10,34 @@
 #include "DEBUG.h"
 #include "crowbar.h"
 
+static void push_value(CRB_Interpreter *inter, CRB_Value *value) {
+    DBG_assert(inter->stack.stack_pointer <= inter->stack.stack_alloc_size,
+               ("stack_pointer..%d,stack_alloc_size..%d\n", inter->stack.stack_pointer, inter->stack.stack_alloc_size));
+    if (inter->stack.stack_pointer == inter->stack.stack_alloc_size) {
+        inter->stack.stack_alloc_size += STACK_ALLOC_SIZE;
+        inter->stack.stack = MEM_realloc(inter->stack.stack, sizeof(CRB_Value) * inter->stack.stack_alloc_size);
+        inter->stack.stack[inter->stack.stack_pointer] = *value;
+        inter->stack.stack_pointer++;
+    }
+}
+
+static CRB_Value pop_value(CRB_Interpreter *inter) {
+    CRB_Value ret;
+    ret = inter->stack.stack[inter->stack.stack_pointer - 1];
+    inter->stack.stack_pointer--;
+
+    return ret;
+}
+
+static CRB_Value *peek_stack(CRB_Interpreter *inter, int index) {
+    return &inter->stack.stack[inter->stack.stack_pointer - index - 1];
+}
+
+
+static void shrink_stack(CRB_Interpreter *inter, int shrink_size) {
+    inter->stack.stack_pointer -= shrink_size;
+}
+
 static CRB_Value eval_boolean_expression(CRB_Boolean boolean_value) {
     CRB_Value v;
     v.type = CRB_BOOLEAN_VALUE;

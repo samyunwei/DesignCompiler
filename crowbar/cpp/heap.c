@@ -171,7 +171,7 @@ static void gc_reset_mark(CRB_Object *obj) {
     obj->marked = CRB_FALSE;
 }
 
-static void gc_make_ref_in_native_method(LocalEnvironment *env) {
+static void gc_mark_ref_in_native_method(LocalEnvironment *env) {
     RefInNativeFunc *ref;
 
     for (ref = env->ref_in_native_method; ref; ref = ref->next) {
@@ -202,7 +202,7 @@ static void gc_mark_objects(CRB_Interpreter *inter) {
                 gc_mark(v->value.u.object);
             }
         }
-        gc_make_ref_in_native_method(lv);
+        gc_mark_ref_in_native_method(lv);
     }
 
     for (i = 0; i < inter->stack.stack_pointer; i++) {
