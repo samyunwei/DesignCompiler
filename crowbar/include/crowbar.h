@@ -111,6 +111,7 @@ typedef enum {
     LOGICAL_OR_EXPRESSION,
     MINUS_EXPRESSION,
     FUNCTION_CALL_EXPRESSION,
+    METHOD_CALL_EXPRESSION,
     NULL_EXPRESSION,
     ARRAY_EXPRESSION,
     INDEX_EXPRESSION,
@@ -172,6 +173,8 @@ struct Expression_tag {
         AssignExpression assign_expression;
         BinaryExpression binary_expression;
         Expression *minus_expression;
+        IndexExpression index_expression;
+        IncrementOrDecrement inc_dec;
         FunctionCallExpression function_call_expression;
     } u;
 };
@@ -372,7 +375,7 @@ struct CRB_Interpreter_tag {
     int current_line_number;
     Stack stack;
     Heap heap;
-    LocalEnvironment *top;
+    LocalEnvironment *top_enviroment;
 };
 
 void crb_function_define(char *identifier, ParameterList *parameter_list, Block *block);
@@ -499,9 +502,9 @@ Variable *crb_search_local_variable(LocalEnvironment *env, char *identifier);
 
 Variable *crb_search_global_variable(CRB_Interpreter *interpreter, char *identifier);
 
-void crb_add_global_variable(CRB_Interpreter *inter, char *identifier, CRB_Value *value);
+Variable *crb_add_global_variable(CRB_Interpreter *inter, char *identifier);
 
-void crb_add_local_variable(LocalEnvironment *env, char *identifier, CRB_Value *value);
+Variable *crb_add_local_variable(LocalEnvironment *env, char *identifier);
 
 CRB_NativeFunctionProc *crb_search_native_function(CRB_Interpreter *inter, char *name);
 
