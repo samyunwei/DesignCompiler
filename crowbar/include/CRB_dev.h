@@ -51,14 +51,13 @@ typedef struct {
 
 } CRB_Value;
 
-typedef CRB_Value CRB_NativeFunctionProc(CRB_Interpreter *interpreter,
+typedef CRB_Value CRB_NativeFunctionProc(CRB_Interpreter *interpreter, LocalEnvironment *env,
                                          int arg_count, CRB_Value *args);
 
 void CRB_add_native_function(CRB_Interpreter *interpreter, char *name, CRB_NativeFunctionProc *proc);
 
-void CRB_add_native_functuin(CRB_Interpreter *interpreter, char *name, CRB_NativeFunctionProc *proc);
 
-void CRB_add_global_variable(CRB_Interpreter *inter, LocalEnvironment *env, char *str);
+void CRB_add_global_variable(CRB_Interpreter *inter, char *identifier, CRB_Value *value);
 
 CRB_Object *CRB_create_crowbar_string(CRB_Interpreter *inter, LocalEnvironment *env, char *str);
 
