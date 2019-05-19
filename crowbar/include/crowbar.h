@@ -127,7 +127,7 @@ typedef struct ArgumentList_tag {
 } ArgumentList;
 
 typedef struct {
-    char *variable;
+    Expression *left;
     Expression *operand;
 } AssignExpression;
 
@@ -262,7 +262,8 @@ typedef struct Parameter_list_tag {
 
 typedef enum {
     CROWBAR_FUNCTION_DEFINITION = 1,
-    NATIVE_FUNCTION_DEFINITION
+    NATIVE_FUNCTION_DEFINITION = 2,
+    FUNCTION_DEFINITITON_TYPE_COUNT_PLUS_1,
 } FunctionDefinitionType;
 
 typedef struct FunctionDefinition_tag {
