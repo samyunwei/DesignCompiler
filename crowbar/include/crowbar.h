@@ -176,6 +176,8 @@ struct Expression_tag {
         IndexExpression index_expression;
         IncrementOrDecrement inc_dec;
         FunctionCallExpression function_call_expression;
+        MethodCallExpression method_call_expression;
+        ExpressionList *array_literal;
     } u;
 };
 
