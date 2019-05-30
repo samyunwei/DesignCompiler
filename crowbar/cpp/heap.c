@@ -196,7 +196,7 @@ static void gc_mark_objects(CRB_Interpreter *inter) {
         }
     }
 
-    for (lv = inter->top; lv; lv = lv->next) {
+    for (lv = inter->top_enviroment; lv; lv = lv->next) {
         for (v = lv->variable; v; v = v->next) {
             if (dkc_is_object_value(v->value.type)) {
                 gc_mark(v->value.u.object);
