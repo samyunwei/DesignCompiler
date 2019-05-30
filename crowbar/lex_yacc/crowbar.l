@@ -50,6 +50,9 @@ static void increment_line_number(void)
 <INITIAL>"*"     return MUL;
 <INITIAL>"/"     return DIV;
 <INITIAL>"%"     return MOD;
+<INITIAL>"++"    return INCREMENT;
+<INITIAL>"--"    return DECREMENT;
+<INITIAL>"."     return DOT;
 <INITIAL>[A-Za-z_][A-Za-z_0-9]* {
     yylval.identifier = crb_create_identifier(yytext);
     return IDENTIFIER;
