@@ -397,7 +397,7 @@ StatementList *crb_chain_statement_list(StatementList *list, Statement *statemen
 
 Expression *crb_alloc_expression(ExpressionType type);
 
-Expression *crb_create_assign_expression(char *variable, Expression *operand);
+Expression *crb_create_assign_expression(Expression *left, Expression *operand);
 
 Expression *crb_create_binary_expression(ExpressionType oprerator, Expression *left, Expression *right);
 

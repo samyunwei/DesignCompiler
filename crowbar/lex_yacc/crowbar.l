@@ -34,6 +34,8 @@ static void increment_line_number(void)
 <INITIAL>")"     return RP;
 <INITIAL>"{"     return LC;
 <INITIAL>"}"     return RC;
+<INITIAL>"["     return LB;
+<INITIAL>"]"     return RB;
 <INITIAL>";"     return SEMICOLON;
 <INITIAL>","     return COMMA;
 <INITIAL>"&&"     return LOGICAL_AND;

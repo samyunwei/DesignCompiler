@@ -12,9 +12,6 @@ extern char *yytext;
 extern MessageFormat crb_compile_error_message_format[];
 extern MessageFormat crb_runtime_error_message_format[];
 
-typedef struct {
-    char *string;
-} VString;
 
 static void clear_v_string(VString *v) {
     v->string = NULL;
