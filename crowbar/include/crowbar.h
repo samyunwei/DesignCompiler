@@ -527,15 +527,18 @@ void crb_compile_error(CompileError id, ...);
 void crb_runtime_error(int line_number, RuntimeError id, ...);
 
 /*native.c*/
-CRB_Value crb_nv_print_proc(CRB_Interpreter *interpreter, int arg_count, CRB_Value *args);
+CRB_Value crb_nv_print_proc(CRB_Interpreter *interpreter, LocalEnvironment *env, int arg_count, CRB_Value *args);
 
-CRB_Value crb_nv_fopen_proc(CRB_Interpreter *interpreter, int arg_count, CRB_Value *args);
+CRB_Value crb_nv_fopen_proc(CRB_Interpreter *interpreter, LocalEnvironment *env, int arg_count, CRB_Value *args);
 
-CRB_Value crb_nv_fclose_proc(CRB_Interpreter *interpreter, int arg_count, CRB_Value *args);
+CRB_Value crb_nv_fclose_proc(CRB_Interpreter *interpreter, LocalEnvironment *env, int arg_count, CRB_Value *args);
 
-CRB_Value crb_nv_fgets_proc(CRB_Interpreter *interpreter, int arg_count, CRB_Value *args);
+CRB_Value crb_nv_fgets_proc(CRB_Interpreter *interpreter, LocalEnvironment *env, int arg_count, CRB_Value *args);
 
-CRB_Value crb_nv_fputs_proc(CRB_Interpreter *interpreter, int arg_count, CRB_Value *args);
+CRB_Value crb_nv_fputs_proc(CRB_Interpreter *interpreter, LocalEnvironment *env, int arg_count, CRB_Value *args);
+
+CRB_Value crb_nv_new_array_proc(CRB_Interpreter *inter, LocalEnvironment *env, int arg_count, CRB_Value *args);
+
 
 void crb_add_std_fp(CRB_Interpreter *inter);
 
