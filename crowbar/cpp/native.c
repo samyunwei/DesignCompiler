@@ -29,7 +29,7 @@ CRB_Value crb_nv_print_proc(CRB_Interpreter *interpreter, LocalEnvironment *env,
     char *str;
     value.type = CRB_NULL_VALUE;
     check_argument_count(arg_count, 1);
-    str = CRB_value_to_string(&arg_count[0]);
+    str = CRB_value_to_string(&args[0]);
     printf("%s", str);
     MEM_free(str);
     return value;
