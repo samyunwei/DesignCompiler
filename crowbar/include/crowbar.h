@@ -391,6 +391,10 @@ ArgumentList *crb_create_argument_list(Expression *expression);
 
 ArgumentList *crb_chain_argument_list(ArgumentList *list, Expression *expr);
 
+ExpressionList *crb_create_expression_list(Expression *expression);
+
+ExpressionList *crb_chain_expression_list(ExpressionList *list, Expression *expr);
+
 StatementList *crb_create_statement_list(StatementList *statement);
 
 StatementList *crb_chain_statement_list(StatementList *list, Statement *statement);
@@ -426,6 +430,8 @@ IdentifierList *crb_create_global_identifier(char *identifier);
 IdentifierList *crb_create_chain_identifier(IdentifierList *list, char *identifier);
 
 IdentifierList *crb_chain_identifier(IdentifierList *list, char *identifier);
+
+Expression *crb_create_array_expression(ExpressionList *list);
 
 Statement *crb_create_if_statement(Expression *condition, Block *then_block, Elsif *elsif_list, Block *else_block);
 

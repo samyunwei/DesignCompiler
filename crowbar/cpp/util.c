@@ -3,8 +3,6 @@
 //
 #include <stdio.h>
 #include <string.h>
-#include <CRB_dev.h>
-#include <crowbar.h>
 #include "MEM.h"
 #include "DEBUG.h"
 #include "crowbar.h"
@@ -78,17 +76,19 @@ Variable *crb_search_global_variable(CRB_Interpreter *inter, char *identifier) {
     return NULL;
 }
 
-void crb_add_local_variable(LocalEnvironment *env, char *identifier, CRB_Value *value) {
+Variable *crb_add_local_variable(LocalEnvironment *env, char *identifier) {
     Variable *new_variable;
 
     new_variable = MEM_malloc(sizeof(Variable));
     new_variable->name = identifier;
-    new_variable->value = *value;
     new_variable->next = env->variable;
     env->variable = new_variable;
+
+    return new_variable;
 }
 
-void crb_add_global_variable(CRB_Interpreter *inter, char *identifier, CRB_Value *value) {
+
+Variable *crb_add_global_variable(CRB_Interpreter *inter, char *identifier) {
     Variable *new_variable;
 
     new_variable = crb_execute_malloc(inter, sizeof(Variable));
@@ -96,7 +96,16 @@ void crb_add_global_variable(CRB_Interpreter *inter, char *identifier, CRB_Value
     strcpy(new_variable->name, identifier);
     new_variable->next = inter->variable;
     inter->variable = new_variable;
+
+    return new_variable;
+}
+
+void CRB_add_global_variable(CRB_Interpreter *inter, char *identifier, CRB_Value *value) {
+    Variable *new_variable;
+
+    new_variable = crb_add_global_variable(inter, identifier);
     new_variable->value = *value;
+
 }
 
 char *crb_get_operator_string(ExpressionType type) {

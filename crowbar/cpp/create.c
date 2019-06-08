@@ -62,6 +62,24 @@ ArgumentList *crb_chain_argument_list(ArgumentList *list, Expression *expr) {
     return list;
 }
 
+ExpressionList *crb_create_expression_list(Expression *expression) {
+    ExpressionList *el;
+
+    el = crb_malloc(sizeof(ExpressionList));
+    el->expression = expression;
+    el->next = NULL;
+    return el;
+}
+
+ExpressionList *crb_chain_expression_list(ExpressionList *list, Expression *expr) {
+    ExpressionList *pos;
+    for (pos = list; pos->next; pos = pos->next);
+
+    pos->next = crb_create_expression_list(expr);
+
+    return list;
+
+}
 StatementList *crb_create_statement_list(StatementList *statement) {
     StatementList *sl;
 
@@ -158,6 +176,25 @@ Expression *crb_create_minus_expression(Expression *operand) {
 }
 
 
+Expression *crb_create_index_expression(Expression *array, Expression *index) {
+    Expression *exp;
+
+    exp = crb_alloc_expression(INDEX_EXPRESSION);
+    exp->u.index_expression.array = array;
+    exp->u.index_expression.index = index;
+
+    return exp;
+}
+
+Expression *crb_create_incdec_expression(Expression *operand, ExpressionType in_or_dec) {
+    Expression *exp;
+
+    exp = crb_alloc_expression(in_or_dec);
+    exp->u.inc_dec.operand = operand;
+
+    return exp;
+}
+
 Expression *crb_create_identifier_expression(char *identifier) {
     Expression *exp;
 
@@ -176,6 +213,7 @@ IdentifierList *crb_chain_identifier(IdentifierList *list, char *identifier) {
     return list;
 }
 
+
 Expression *crb_create_function_call_expression(char *func_name, ArgumentList *argument) {
     Expression *exp;
     exp = crb_alloc_expression(FUNCTION_CALL_EXPRESSION);
@@ -185,6 +223,16 @@ Expression *crb_create_function_call_expression(char *func_name, ArgumentList *a
     return exp;
 }
 
+Expression *crb_create_method_call_expression(Expression *expression, char *method_name, ArgumentList *argument) {
+    Expression *exp;
+
+    exp = crb_alloc_expression(METHOD_CALL_EXPRESSION);
+    exp->u.method_call_expression.expression = expression;
+    exp->u.method_call_expression.identifier = method_name;
+    exp->u.method_call_expression.argument = argument;
+
+    return exp;
+}
 
 Expression *crb_create_boolean_expression(CRB_Boolean value) {
     Expression *exp;
@@ -204,6 +252,13 @@ Expression *crb_create_null_expression(void) {
     return exp;
 }
 
+Expression *crb_create_array_expression(ExpressionList *list) {
+    Expression *exp;
+    exp = crb_alloc_expression(ARRAY_EXPRESSION);
+    exp->u.array_literal = list;
+
+    return exp;
+}
 
 static Statement *alloc_statement(StatementType type) {
     Statement *st;

@@ -4,9 +4,7 @@
 
 #include <MEM.h>
 #include <DEBUG.h>
-#include <CRB_dev.h>
 #include <crowbar.h>
-
 #define GLOBAL_VARIABLE_DEFINE
 
 #include "crowbar.h"
@@ -62,10 +60,7 @@ void CRB_interpret(CRB_Interpreter *interpreter) {
 static void release_global_strings(CRB_Interpreter *interpreter) {
     while (interpreter->variable) {
         Variable *temp = interpreter->variable;
-        interpreter->variable = interpreter->variable->next;
-        if (temp->value.type == CRB_STRING_VALUE) {
-            crb_release_string(temp->value.u.string_value);
-        }
+        interpreter->variable = temp->next;
     }
 }
 
