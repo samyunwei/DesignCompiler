@@ -29,6 +29,13 @@ CRB_Interpreter *CRB_create_interpreter(void) {
     interpreter->function_list = NULL;
     interpreter->statement_list = NULL;
     interpreter->current_line_number = 1;
+    interpreter->stack.stack_alloc_size = 0;
+    interpreter->stack.stack_pointer = 0;
+    interpreter->stack.stack = MEM_malloc(sizeof(CRB_Value) * STACK_ALLOC_SIZE);
+    interpreter->heap.current_heap_size = 0;
+    interpreter->heap.current_threshold = HEAP_THRESHOLD_SIZE;
+    interpreter->heap.header = NULL;
+    interpreter->top_enviroment = NULL;
 
     crb_set_current_interpreter(interpreter);
     add_native_functions(interpreter);
@@ -54,7 +61,7 @@ void CRB_interpret(CRB_Interpreter *interpreter) {
     interpreter->execute_storage = MEM_open_storage(0);
     crb_add_std_fp(interpreter);
     crb_execute_statement_list(interpreter, NULL, interpreter->statement_list);
-
+    crb_garbage_collect(interpreter);
 }
 
 static void release_global_strings(CRB_Interpreter *interpreter) {
@@ -71,6 +78,10 @@ void CRB_dispose_interpreter(CRB_Interpreter *interpreter) {
     if (interpreter->execute_storage) {
         MEM_dispose_storage(interpreter->execute_storage);
     }
+    interpreter->variable = NULL;
+    crb_garbage_collect(interpreter);
+    DBG_assert(interpreter->heap.current_heap_size == 0, ("%d bytes leaked.\n", interpreter->heap.current_heap_size));
+    MEM_free(interpreter->stack.stack);
     MEM_dispose_storage(interpreter->interpreter_storage);
 }
 

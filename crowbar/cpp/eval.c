@@ -378,7 +378,7 @@ static CRB_Boolean eval_compare_string(ExpressionType operator, CRB_Value *left,
 }
 
 static CRB_Boolean
-eval_binary_null(CRB_Interpreter *inter, ExpressionType *operator, CRB_Value *left, CRB_Value *right, int line_number) {
+eval_binary_null(CRB_Interpreter *inter, ExpressionType operator, CRB_Value *left, CRB_Value *right, int line_number) {
     CRB_Boolean result;
 
     if (operator == EQ_EXPRESSION) {
