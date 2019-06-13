@@ -16,9 +16,9 @@ static void push_value(CRB_Interpreter *inter, CRB_Value *value) {
     if (inter->stack.stack_pointer == inter->stack.stack_alloc_size) {
         inter->stack.stack_alloc_size += STACK_ALLOC_SIZE;
         inter->stack.stack = MEM_realloc(inter->stack.stack, sizeof(CRB_Value) * inter->stack.stack_alloc_size);
-        inter->stack.stack[inter->stack.stack_pointer] = *value;
-        inter->stack.stack_pointer++;
     }
+    inter->stack.stack[inter->stack.stack_pointer] = *value;
+    inter->stack.stack_pointer++;
 }
 
 static CRB_Value pop_value(CRB_Interpreter *inter) {
