@@ -99,7 +99,7 @@ statement_list
     ;
 expression
     : logical_or_expression
-    | IDENTIFIER ASSIGN expression
+    | postfix_expression ASSIGN expression
     {
         $$ = crb_create_assign_expression($1,$3);
     }

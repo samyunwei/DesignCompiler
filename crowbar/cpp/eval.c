@@ -170,7 +170,7 @@ CRB_Value *get_lvalue(CRB_Interpreter *inter, LocalEnvironment *env, Expression 
     CRB_Value *dest = NULL;
     if (expr->type == IDENTIFIER_EXPRESSION) {
         dest = get_identifier_lvalue(inter, env, expr->u.identifier);
-    } else if (expr->type == INT_EXPRESSION) {
+    } else if (expr->type == INDEX_EXPRESSION) {
         dest = get_array_element_lvalue(inter, env, expr);
     } else {
         crb_runtime_error(expr->line_number, NOT_LVALUE_ERR, MESSAGE_ARGUMENT_END);
@@ -442,6 +442,8 @@ eval_binary_expression(CRB_Interpreter *inter, LocalEnvironment *env, Expression
         result.u.boolean_value = eval_binary_boolean(inter, operator, left_val->u.boolean_value,
                                                      right_val->u.boolean_value, left->line_number);
     } else if (left_val->type == CRB_STRING_VALUE && operator == ADD_EXPRESSION) {
+        chain_string(inter, left_val, right_val, &result);
+    } else if (left_val->type == CRB_STRING_VALUE && right_val->type == CRB_STRING_VALUE) {
         result.type = CRB_BOOLEAN_VALUE;
         result.u.boolean_value = eval_compare_string(operator, left_val, right_val, left->line_number);
     } else if (left_val->type == CRB_NULL_VALUE || right_val->type == CRB_NULL_VALUE) {
@@ -814,8 +816,8 @@ static void eval_expression(CRB_Interpreter *inter, LocalEnvironment *env, Expre
         case GE_EXPRESSION:
         case LT_EXPRESSION:
         case LE_EXPRESSION:
-            crb_eval_binary_expression(inter, env, expr->type, expr->u.binary_expression.left,
-                                       expr->u.binary_expression.right);
+            eval_binary_expression(inter, env, expr->type, expr->u.binary_expression.left,
+                                   expr->u.binary_expression.right);
             break;
         case LOGICAL_AND_EXPRESSION:
         case LOGICAL_OR_EXPRESSION:
