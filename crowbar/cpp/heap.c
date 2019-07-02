@@ -239,7 +239,7 @@ static void gc_sweep_objects(CRB_Interpreter *inter) {
     for (obj = inter->heap.header; obj;) {
         if (!obj->marked) {
             if (obj->prev) {
-                obj->next->prev = obj->next;
+                obj->prev->next = obj->next;
             } else {
                 inter->heap.header = obj->next;
             }

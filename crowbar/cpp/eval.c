@@ -624,6 +624,8 @@ call_crowbar_function(CRB_Interpreter *inter, LocalEnvironment *env, LocalEnviro
         crb_runtime_error(expr->line_number, ARGUMENT_TOO_FEW_ERR, MESSAGE_ARGUMENT_END);
     }
 
+    result = crb_execute_statement_list(inter, env, func->u.crowbar_f.block->statement_list);
+
     if (result.type == RETURN_STATEMENT_RESULT) {
         value = result.u.return_value;
     } else {

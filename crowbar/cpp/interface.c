@@ -15,6 +15,7 @@ static void add_native_functions(CRB_Interpreter *inter) {
     CRB_add_native_function(inter, "flcose", crb_nv_fclose_proc);
     CRB_add_native_function(inter, "fgets", crb_nv_fgets_proc);
     CRB_add_native_function(inter, "fputs", crb_nv_fputs_proc);
+    CRB_add_native_function(inter, "new_array", crb_nv_new_array_proc);
 }
 
 CRB_Interpreter *CRB_create_interpreter(void) {

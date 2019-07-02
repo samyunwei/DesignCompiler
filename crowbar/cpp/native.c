@@ -178,7 +178,7 @@ CRB_Value crb_nv_new_array_proc(CRB_Interpreter *interpreter, LocalEnvironment *
         crb_runtime_error(0, ARGUMENT_TOO_FEW_ERR, MESSAGE_ARGUMENT_END);
     }
 
-    value = new_array_sub(interpreter, env, arg_count, args, arg_count + 1);
+    value = new_array_sub(interpreter, env, arg_count, args, 0);
 
     return value;
 }
