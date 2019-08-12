@@ -33,4 +33,4 @@ add_executable(my${proj_name}_cpp ${${proj_name}_src}
         ${cpp_src}
         )
 
-target_link_libraries(my${proj_name}_cpp ${LEX_LIB})
+target_link_libraries(my${proj_name}_cpp m ${LEX_LIB})
